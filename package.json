@@ -13,10 +13,7 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "./node_modules/prettier/bin/prettier.js --tab-width 4 --write",
-      "git add"
-    ]
+    "*.{js,json,css,md}": ["prettier --write", "git add"]
   },
   "author": "julianabacelar <julianasobreirab@gmail.com>",
   "license": "MIT"
