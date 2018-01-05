@@ -1,4 +1,5 @@
-import AES from "crypto-js/aes";
+var Vigenere = require("vigenere");
+var key = "my passphrase";
 
 function getText(range) {
   var hasStarted = false;
@@ -12,15 +13,18 @@ function getText(range) {
         hasStarted = true;
         n.nodeValue =
           n.nodeValue.slice(0, range.startOffset) +
-          AES(n.nodeValue.slice(range.startOffset, n.nodeValue.length));
+          Vigenere.encode(
+            n.nodeValue.slice(range.startOffset, n.nodeValue.length),
+            key
+          );
       } else if (n === range.endContainer) {
         hasEnded = true;
         n.nodeValue =
-          n.nodeValue.slice(0, range.endOffset).toUpperCase() +
+          Vigenere.encode(n.nodeValue.slice(0, range.endOffset), key) +
           n.nodeValue.slice(range.endOffset, n.nodeValue.length);
       } else {
         if (hasStarted && !hasEnded) {
-          n.nodeValue = AES(n.nodeValue);
+          n.nodeValue = Vigenere.encode(n.nodeValue, key);
         }
       }
     }
@@ -29,8 +33,12 @@ function getText(range) {
   if (range.startContainer === range.endContainer) {
     range.startContainer.nodeValue =
       range.startContainer.nodeValue.slice(0, range.startOffset) +
-      AES(
-        range.startContainer.nodeValue.slice(range.startOffset, range.endOffset)
+      Vigenere.encode(
+        range.startContainer.nodeValue.slice(
+          range.startOffset,
+          range.endOffset
+        ),
+        key
       ) +
       range.startContainer.nodeValue.slice(
         range.endOffset,
@@ -56,9 +64,13 @@ function replaceTxt() {
     ) {
       activeElement.value =
         activeElement.value.slice(0, activeElement.selectionStart) +
-        activeElement.value
-          .slice(activeElement.selectionStart, activeElement.selectionEnd)
-          .toUpperCase() +
+        Vigenere.encode(
+          activeElement.value.slice(
+            activeElement.selectionStart,
+            activeElement.selectionEnd
+          ),
+          key
+        ) +
         activeElement.value.slice(
           activeElement.selectionEnd,
           activeElement.value.length

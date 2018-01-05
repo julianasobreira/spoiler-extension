@@ -4,7 +4,10 @@
   "description": "",
   "main": "eventPage.js",
   "dependencies": {
-    "crypto-js": "^3.1.9-1"
+    "aes": "^0.1.0",
+    "aes256": "^1.0.2",
+    "crypto-js": "^3.1.9-1",
+    "vigenere": "^1.0.2"
   },
   "devDependencies": {
     "husky": "^0.14.3",
