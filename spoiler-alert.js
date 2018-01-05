@@ -1,4 +1,4 @@
-console.log("spoiler-alert");
+import AES from "crypto-js/aes";
 
 function getText(range) {
   var hasStarted = false;
@@ -12,9 +12,7 @@ function getText(range) {
         hasStarted = true;
         n.nodeValue =
           n.nodeValue.slice(0, range.startOffset) +
-          n.nodeValue
-            .slice(range.startOffset, n.nodeValue.length)
-            .toUpperCase();
+          AES(n.nodeValue.slice(range.startOffset, n.nodeValue.length));
       } else if (n === range.endContainer) {
         hasEnded = true;
         n.nodeValue =
@@ -22,7 +20,7 @@ function getText(range) {
           n.nodeValue.slice(range.endOffset, n.nodeValue.length);
       } else {
         if (hasStarted && !hasEnded) {
-          n.nodeValue = n.nodeValue.toUpperCase();
+          n.nodeValue = AES(n.nodeValue);
         }
       }
     }
@@ -31,9 +29,9 @@ function getText(range) {
   if (range.startContainer === range.endContainer) {
     range.startContainer.nodeValue =
       range.startContainer.nodeValue.slice(0, range.startOffset) +
-      range.startContainer.nodeValue
-        .slice(range.startOffset, range.endOffset)
-        .toUpperCase() +
+      AES(
+        range.startContainer.nodeValue.slice(range.startOffset, range.endOffset)
+      ) +
       range.startContainer.nodeValue.slice(
         range.endOffset,
         range.startContainer.nodeValue.length
