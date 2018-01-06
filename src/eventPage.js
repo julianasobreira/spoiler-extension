@@ -1,7 +1,20 @@
-var contextMenuItem = {
+chrome.contextMenus.create({
   id: "spoilerAlert",
-  title: "SpoilerAlert",
+  title: "Encode Spoiler",
   contexts: ["editable"]
-};
+});
 
-chrome.contextMenus.create(contextMenuItem);
+chrome.contextMenus.onClicked.addListener(function(info) {
+  if (info.menuItemId === "spoilerAlert" && info.selectionText) {
+    console.log("yeah");
+    chrome.tabs.query(
+      {
+        active: true,
+        currentWindow: true
+      },
+      function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, { type: "encode" });
+      }
+    );
+  }
+});

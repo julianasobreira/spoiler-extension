@@ -1,9 +1,9 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./spoiler-alert.js",
+  entry: "./contentScript.js",
   output: {
-    filename: "spoiler-alert.js",
+    filename: "contentScript.js",
     path: path.resolve(__dirname, "src")
   }
 };
